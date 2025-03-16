@@ -1,0 +1,7 @@
+venv/
+__pycache__/
+.Trained_data/
+*.pkl
+*.h5
+*.csv
+.DS_Store
