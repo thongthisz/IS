@@ -118,7 +118,7 @@ with col2:
     </div>
     """, unsafe_allow_html=True)
 
-    file_path2 = os.path.join("pages", "WakeUpSchedulerDataset.csv")
+    file_path2 = "WakeUpSchedulerDataset.csv"
     if os.path.exists(file_path2):
         df2 = pd.read_csv(file_path2)
         st.dataframe(df2)
