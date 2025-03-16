@@ -4,39 +4,7 @@ import os
 
 st.set_page_config(page_title="Machine Info", layout="wide", initial_sidebar_state="collapsed")
 
-st.markdown("""
-    <style>
-        .nav-container {
-            background-color: #262730;
-            padding: 15px 0;
-            border-radius: 8px;
-            margin-bottom: 30px;
-        }
-        .nav-link {
-            color: white !important;
-            margin: 0 20px;
-            font-size: 22px;
-            text-decoration: none;
-            font-weight: bold;
-            padding: 8px 16px;
-            border-radius: 5px;
-            transition: background-color 0.3s ease;
-        }
-        .nav-link:hover {
-            background-color: #444654;
-        }
-    </style>
-
-    <div class='nav-container' style='text-align: center;'>
-        <a class='nav-link' href="/Data_Preparation.py"> Machine Info</a>
-        <a class='nav-link' href="/ML.py"> Machine Test</a>
-        <a class='nav-link' href="/Model_Explanation.py"> NN Info</a>
-        <a class='nav-link' href="/NN.py"> NN Test</a>
-    </div>
-""", unsafe_allow_html=True)
-
-
-
+# แสดง Navbar
 st.markdown("""
     <style>
         .nav-container {
@@ -67,11 +35,13 @@ st.markdown("""
         <a class='nav-link' href="/NN"> NN Test</a>
     </div>
 """, unsafe_allow_html=True)
+
+# แบ่ง Column
 col1, col2 = st.columns([2, 1])
 
 with col1:
     st.markdown("""
-    <div style='text-align: left; margin-top: 50px; margin-left: 100px;'>
+    <div style='margin-top: 50px; margin-left: 100px;'>
         <h2 style='font-size: 40px;'>การเตรียมข้อมูล (Data Preparation)</h2>
     </div>
     <div style='font-size:20px; text-align: left; line-height: 1.6;'>
@@ -86,10 +56,10 @@ with col1:
     """, unsafe_allow_html=True)
 
     st.markdown("""
-    <div style='text-align: left; margin-left: 60px;'>
+    <div style='margin-left: 60px;'>
         <h2 style='font-size: 40px;'>ทฤษฎีของอัลกอริทึม Machine Learning</h2>
     </div>
-    <div style='font-size:20px; line-height: 1.6; margin-left: 0px;'>
+    <div style='font-size:20px; line-height: 1.6;'>
     <h3 style='font-size: 24px;'>Linear Regression</h3>
     <ul>
     <li>โมเดลพื้นฐานที่ใช้สมการเส้นตรง \( y = wx + b \)</li>
@@ -107,10 +77,10 @@ with col1:
     """, unsafe_allow_html=True)
 
     st.markdown("""
-    <div style='text-align: left; margin-top: 20px; margin-left: 0px;'>
+    <div style='margin-top: 20px;'>
         <h2 style='font-size: 40px;'>ขั้นตอนการพัฒนาโมเดล Machine Learning</h2>
     </div>
-    <div style='font-size:20px; line-height:  1.6; margin-left: 0px;'>
+    <div style='font-size:20px; line-height: 1.6;'>
     <ol>
     <li>แบ่งข้อมูลเป็น Training Set (80%) และ Test Set (20%)</li>
     <li>เทรนโมเดลด้วย Linear Regression และ Random Forest Regression</li>
@@ -121,10 +91,10 @@ with col1:
     """, unsafe_allow_html=True)
 
     st.markdown("""
-    <div style='text-align: left; margin-top: 30px;'>
+    <div style='margin-top: 30px;'>
         <h2 style='font-size: 40px;'>รายละเอียดฟีเจอร์ใน Dataset</h2>
     </div>
-    <div style='font-size:20px; text-align: left; line-height: 1.6;'>
+    <div style='font-size:20px; line-height: 1.6;'>
     <ul>
     <li><b>Brand</b>: ยี่ห้อของรถ เช่น Honda, Yamaha, Vespa</li>
     <li><b>Model</b>: รุ่นของรถ เช่น PCX 160, Click 125</li>
@@ -140,15 +110,17 @@ with col1:
     """, unsafe_allow_html=True)
 
 with col2:
-    st.markdown("""
-    <div style='text-align: left; margin-top: 50px;'>
-        <h2 style='font-size: 40px;'>Dataset ที่ใช้</h2>
-    </div>
-    """, unsafe_allow_html=True)
+    st.markdown("<div style='margin-top: 50px;'><h2 style='font-size: 40px;'>Dataset ที่ใช้</h2></div>", unsafe_allow_html=True)
 
-file_path1 = os.path.join("pages", "MotorcycleDataset.csv")
-if os.path.exists(file_path1):
-    df1 = pd.read_csv(file_path1)
-    st.dataframe(df1)
-else:
-    st.error("ไฟล์ MotorcycleDataset.csv ไม่พบ กรุณาตรวจสอบ")
+    # ลองเปลี่ยน path หากไม่เจอไฟล์
+    file_path1 = "MotorcycleDataset.csv"
+    if os.path.exists(file_path1):
+        df1 = pd.read_csv(file_path1)
+        st.dataframe(df1, use_container_width=True)
+
+        # ปุ่มโหลดไฟล์
+        csv = df1.to_csv(index=False).encode('utf-8')
+        st.download_button("ดาวน์โหลด Dataset", data=csv, file_name='MotorcycleDataset.csv', mime='text/csv')
+    else:
+        st.error("❌ ไม่พบไฟล์ MotorcycleDataset.csv กรุณาตรวจสอบตำแหน่งไฟล์")
+
