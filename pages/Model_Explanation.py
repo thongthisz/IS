@@ -4,8 +4,6 @@ import os
 
 st.set_page_config(page_title="NN Info", layout="wide", initial_sidebar_state="collapsed")
 
-
-
 st.markdown("""
     <style>
         .nav-container {
@@ -30,10 +28,10 @@ st.markdown("""
     </style>
 
     <div class='nav-container' style='text-align: center;'>
-        <a class='nav-link' href="/Data_Preparation.py"> Machine Info</a>
-        <a class='nav-link' href="/ML.py"> Machine Test</a>
-        <a class='nav-link' href="/Model_Explanation.py"> NN Info</a>
-        <a class='nav-link' href="/NN.py"> NN Test</a>
+        <a class='nav-link' href="/Data_Preparation"> Machine Info</a>
+        <a class='nav-link' href="/ML"> Machine Test</a>
+        <a class='nav-link' href="/Model_Explanation"> NN Info</a>
+        <a class='nav-link' href="/NN"> NN Test</a>
     </div>
 """, unsafe_allow_html=True)
 
@@ -92,28 +90,26 @@ with col1:
     </div>
     """, unsafe_allow_html=True)
 
-
     st.markdown("""
-<div style='text-align: left; margin-top: 30px;'>
-    <h2 style='font-size: 36px;'>ฟีเจอร์ใน Dataset</h2>
-</div>
-<div style='font-size:20px; text-align: left; line-height: 1.6;'>
-<ul>
-<li><b>Class_Start</b>: เวลาที่ต้องถึงห้องเรียน (HH:MM)</li>
-<li><b>WakeUp_Time</b>: เวลาที่ควรตื่น (HH:MM) - ค่าที่ Neural Network จะทำนาย</li>
-<li><b>Start_Shower / Start_DressUp / Start_Prepare_Items</b>: เวลาที่เริ่มทำกิจกรรมต่าง ๆ (HH:MM)</li>
-<li><b>Shower_Duration / DressUp_Duration / Prepare_Items_Duration</b>: ระยะเวลาในการอาบน้ำ, แต่งตัว, เตรียมของ (นาที)</li>
-<li><b>Transport_Mode_1 / 2 / 3</b>: ประเภทพาหนะในการเดินทางแต่ละต่อ เช่น Walk, Bus, MRT (เข้ารหัสด้วย Label Encoding)</li>
-<li><b>Time_1 / 2 / 3</b>: เวลาที่ใช้เดินทางแต่ละต่อ (นาที)</li>
-<li><b>Wait_1 / 2 / 3</b>: เวลาที่ต้องรอพาหนะในแต่ละต่อ (นาที)</li>
-<li><b>Total_Commute_Time</b>: เวลารวมในการเดินทาง (นาที)</li>
-<li><b>Leave_Home</b>: เวลาที่ต้องออกจากบ้าน (HH:MM)</li>
-<li><b>Arrive_Class</b>: เวลาที่ไปถึงห้องเรียน (HH:MM)</li>
-<li><b>Buffer_Time</b>: เวลาสำรองเผื่อ (นาที)</li>
-</ul>
-</div>
-""", unsafe_allow_html=True)
-
+    <div style='text-align: left; margin-top: 30px;'>
+        <h2 style='font-size: 36px;'>ฟีเจอร์ใน Dataset</h2>
+    </div>
+    <div style='font-size:20px; text-align: left; line-height: 1.6;'>
+    <ul>
+    <li><b>Class_Start</b>: เวลาที่ต้องถึงห้องเรียน (HH:MM)</li>
+    <li><b>WakeUp_Time</b>: เวลาที่ควรตื่น (HH:MM) - ค่าที่ Neural Network จะทำนาย</li>
+    <li><b>Start_Shower / Start_DressUp / Start_Prepare_Items</b>: เวลาที่เริ่มทำกิจกรรมต่าง ๆ (HH:MM)</li>
+    <li><b>Shower_Duration / DressUp_Duration / Prepare_Items_Duration</b>: ระยะเวลาในการอาบน้ำ, แต่งตัว, เตรียมของ (นาที)</li>
+    <li><b>Transport_Mode_1 / 2 / 3</b>: ประเภทพาหนะในการเดินทางแต่ละต่อ เช่น Walk, Bus, MRT (เข้ารหัสด้วย Label Encoding)</li>
+    <li><b>Time_1 / 2 / 3</b>: เวลาที่ใช้เดินทางแต่ละต่อ (นาที)</li>
+    <li><b>Wait_1 / 2 / 3</b>: เวลาที่ต้องรอพาหนะในแต่ละต่อ (นาที)</li>
+    <li><b>Total_Commute_Time</b>: เวลารวมในการเดินทาง (นาที)</li>
+    <li><b>Leave_Home</b>: เวลาที่ต้องออกจากบ้าน (HH:MM)</li>
+    <li><b>Arrive_Class</b>: เวลาที่ไปถึงห้องเรียน (HH:MM)</li>
+    <li><b>Buffer_Time</b>: เวลาสำรองเผื่อ (นาที)</li>
+    </ul>
+    </div>
+    """, unsafe_allow_html=True)
 
 with col2:
     st.markdown("""
@@ -122,10 +118,9 @@ with col2:
     </div>
     """, unsafe_allow_html=True)
 
-    file_path = os.path.join("data", "WakeUpSchedulerDataset.csv")
-    if os.path.exists(file_path):
-        df = pd.read_csv(file_path)
-        dataframe_height = min(1000, 35 * len(df))  
-        st.dataframe(df, height=dataframe_height)
+    file_path2 = os.path.join("pages", "WakeUpSchedulerDataset.csv")
+    if os.path.exists(file_path2):
+        df2 = pd.read_csv(file_path2)
+        st.dataframe(df2)
     else:
-        st.error(f"ไฟล์ {file_path} ไม่พบ กรุณาตรวจสอบ")
+        st.error("ไฟล์ WakeUpSchedulerDataset.csv ไม่พบ กรุณาตรวจสอบ")
