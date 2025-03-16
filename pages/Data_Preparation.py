@@ -113,7 +113,7 @@ with col2:
     st.markdown("<div style='margin-top: 50px;'><h2 style='font-size: 40px;'>Dataset ที่ใช้</h2></div>", unsafe_allow_html=True)
 
     # ลองเปลี่ยน path หากไม่เจอไฟล์
-    file_path1 = os.path.join("pages", "MotorcycleDataset.csv")
+    file_path1 = "MotorcycleDataset.csv"
     if os.path.exists(file_path1):
         df1 = pd.read_csv(file_path1)
         st.dataframe(df1, use_container_width=True)

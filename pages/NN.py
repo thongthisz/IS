@@ -4,9 +4,11 @@ import numpy as np
 from tensorflow.keras.models import load_model
 from sklearn.preprocessing import LabelEncoder, MinMaxScaler
 import pickle
-import os
+import requests
 
 st.set_page_config(page_title="NN Demo", layout="wide", initial_sidebar_state="collapsed")
+
+# ========== UI Navbar ==========
 st.markdown("""
     <style>
         .nav-container {
@@ -40,15 +42,22 @@ st.markdown("""
 
 st.title("⏰ Neural Network Demo - Predict Wake Up Time")
 
-model_path = "Trained_data/wake_up_model.h5"
-scaler_path = "Trained_data/scaler.pkl"
+def load_file_from_drive(file_id, save_as):
+    url = f"https://drive.google.com/uc?id={file_id}"
+    response = requests.get(url)
+    with open(save_as, "wb") as f:
+        f.write(response.content)
 
-if not os.path.exists(model_path) or not os.path.exists(scaler_path):
-    st.error("ยังไม่มีโมเดลหรือ Scaler กรุณาเทรนโมเดลก่อนในหน้า TrainNN.py")
-    st.stop()
+file_ids = {
+    "model": "1cHbx3G7CvBgeXee3qZqBLX191QrsMPH7",
+    "scaler": "13ckfm3ymjJyk1xpEed0P4EWYQw6GdXa7"
+}
 
-model = load_model(model_path, compile=False)
-with open(scaler_path, "rb") as f:
+load_file_from_drive(file_ids["model"], "wake_up_model.h5")
+load_file_from_drive(file_ids["scaler"], "scaler.pkl")
+
+model = load_model("wake_up_model.h5", compile=False)
+with open("scaler.pkl", "rb") as f:
     scaler = pickle.load(f)
 
 transport_modes = ['Walk', 'Motorbike_Private', 'Car_Private', 'Bus', 'Train', 'None']
@@ -79,7 +88,6 @@ with st.form("predict_form"):
     if add_transport:
         st.session_state.num_transports += 1
         st.rerun()
-
 
     buffer_time = st.number_input("เวลาเผื่อก่อนถึงเรียน (นาที)", min_value=0, max_value=60, value=10)
     predict = st.form_submit_button("ทำนายเวลาตื่น")
