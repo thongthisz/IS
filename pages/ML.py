@@ -4,6 +4,37 @@ import pickle
 
 st.set_page_config(page_title="Machine Demo", layout="wide", initial_sidebar_state="collapsed")
 
+st.markdown("""
+    <style>
+        .nav-container {
+            background-color: #262730;
+            padding: 15px 0;
+            border-radius: 8px;
+            margin-bottom: 30px;
+        }
+        .nav-link {
+            color: white !important;
+            margin: 0 20px;
+            font-size: 22px;
+            text-decoration: none;
+            font-weight: bold;
+            padding: 8px 16px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+        .nav-link:hover {
+            background-color: #444654;
+        }
+    </style>
+
+    <div class='nav-container' style='text-align: center;'>
+        <a class='nav-link' href="/Data_Preparation.py"> Machine Info</a>
+        <a class='nav-link' href="/ML.py"> Machine Test</a>
+        <a class='nav-link' href="/Model_Explanation.py"> NN Info</a>
+        <a class='nav-link' href="/NN.py"> NN Test</a>
+    </div>
+""", unsafe_allow_html=True)
+
 st.title("ทำนายราคารถมอเตอร์ไซค์ด้วย Machine Learning")
 
 with open("linear_model.pkl", "rb") as f:

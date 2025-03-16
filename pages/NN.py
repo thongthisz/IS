@@ -7,9 +7,40 @@ import pickle
 import os
 
 st.set_page_config(page_title="NN Demo", layout="wide", initial_sidebar_state="collapsed")
+st.markdown("""
+    <style>
+        .nav-container {
+            background-color: #262730;
+            padding: 15px 0;
+            border-radius: 8px;
+            margin-bottom: 30px;
+        }
+        .nav-link {
+            color: white !important;
+            margin: 0 20px;
+            font-size: 22px;
+            text-decoration: none;
+            font-weight: bold;
+            padding: 8px 16px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+        .nav-link:hover {
+            background-color: #444654;
+        }
+    </style>
+
+    <div class='nav-container' style='text-align: center;'>
+        <a class='nav-link' href="/Data_Preparation.py"> Machine Info</a>
+        <a class='nav-link' href="/ML.py"> Machine Test</a>
+        <a class='nav-link' href="/Model_Explanation.py"> NN Info</a>
+        <a class='nav-link' href="/NN.py"> NN Test</a>
+    </div>
+""", unsafe_allow_html=True)
+
+
 st.title("⏰ Neural Network Demo - Predict Wake Up Time")
 
-# โหลดโมเดลและ Scaler
 model_path = "Trained_data/wake_up_model.h5"
 scaler_path = "Trained_data/scaler.pkl"
 
@@ -21,12 +52,10 @@ model = load_model(model_path, compile=False)
 with open(scaler_path, "rb") as f:
     scaler = pickle.load(f)
 
-# ตัวเลือกการเดินทาง
 transport_modes = ['Walk', 'Motorbike_Private', 'Car_Private', 'Bus', 'Train', 'None']
 le_mode = LabelEncoder()
 le_mode.fit(transport_modes)
 
-# ฟอร์มกรอกข้อมูล
 st.header("📋 กรอกกิจกรรมและการเดินทาง")
 
 if 'num_transports' not in st.session_state:

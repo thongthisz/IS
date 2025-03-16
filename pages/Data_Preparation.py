@@ -28,10 +28,10 @@ st.markdown("""
     </style>
 
     <div class='nav-container' style='text-align: center;'>
-        <a class='nav-link' href="/Data_Preparation"> Machine Info</a>
-        <a class='nav-link' href="/ML"> Machine Test</a>
-        <a class='nav-link' href="/Model_Explanation"> NN Info</a>
-        <a class='nav-link' href="/NN"> NN Test</a>
+        <a class='nav-link' href="/Data_Preparation.py"> Machine Info</a>
+        <a class='nav-link' href="/ML.py"> Machine Test</a>
+        <a class='nav-link' href="/Model_Explanation.py"> NN Info</a>
+        <a class='nav-link' href="/NN.py"> NN Test</a>
     </div>
 """, unsafe_allow_html=True)
 
