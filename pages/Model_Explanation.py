@@ -1,6 +1,6 @@
 import streamlit as st
 import pandas as pd
-import os
+import requests
 
 st.set_page_config(page_title="NN Info", layout="wide", initial_sidebar_state="collapsed")
 
@@ -51,9 +51,7 @@ with col1:
     <li>Normalize ข้อมูลตัวเลขด้วย MinMaxScaler ให้อยู่ในช่วง 0-1</li>
     </ul>
     </div>
-    """, unsafe_allow_html=True)
 
-    st.markdown("""
     <div style='text-align: left; margin-left: 60px;'>
         <h2 style='font-size: 40px;'>ทฤษฎีของอัลกอริทึม Neural Network</h2>
     </div>
@@ -70,12 +68,9 @@ with col1:
     <li>Optimizer: Adam ช่วยปรับพารามิเตอร์เพื่อให้ค่าคลาดเคลื่อนลดลง</li>
     <li>Loss Function: Mean Squared Error (MSE) ใช้วัดความผิดพลาดของผลลัพธ์</li>
     </ul>
-
     <p>จุดเด่นของ Neural Network คือสามารถจับความสัมพันธ์ที่ไม่เป็นเชิงเส้นของข้อมูลได้ดี เหมาะสำหรับปัญหาที่ซับซ้อน เช่น การทำนายเวลาตื่นจากกิจกรรมและการเดินทางที่หลากหลาย</p>
     </div>
-    """, unsafe_allow_html=True)
 
-    st.markdown("""
     <div style='text-align: left; margin-top: 20px; margin-left: 0px;'>
         <h2 style='font-size: 40px;'>ขั้นตอนการพัฒนาโมเดล Neural Network</h2>
     </div>
@@ -88,9 +83,7 @@ with col1:
     <li>ประเมินผลด้วย MAE (Mean Absolute Error) และ Loss</li>
     </ol>
     </div>
-    """, unsafe_allow_html=True)
 
-    st.markdown("""
     <div style='text-align: left; margin-top: 30px;'>
         <h2 style='font-size: 36px;'>ฟีเจอร์ใน Dataset</h2>
     </div>
@@ -112,15 +105,21 @@ with col1:
     """, unsafe_allow_html=True)
 
 with col2:
-    st.markdown("""
-    <div style='text-align: left; margin-top: 50px;'>
-        <h2 style='font-size: 40px;'>Dataset ที่ใช้ </h2>
-    </div>
-    """, unsafe_allow_html=True)
+    st.markdown("<div style='text-align: left; margin-top: 50px;'><h2 style='font-size: 40px;'>Dataset ที่ใช้</h2></div>", unsafe_allow_html=True)
 
-    file_path2 = "WakeUpSchedulerDataset.csv"
-    if os.path.exists(file_path2):
-        df2 = pd.read_csv(file_path2)
-        st.dataframe(df2)
-    else:
-        st.error("ไฟล์ WakeUpSchedulerDataset.csv ไม่พบ กรุณาตรวจสอบ")
+    file_id = "1JJ1nA6eFYv3Xq7R09EOLz4K8CUN9Rwsr"
+    url = f"https://drive.google.com/uc?export=download&id={file_id}"
+
+    try:
+        response = requests.get(url)
+        with open("WakeUpSchedulerDataset.csv", "wb") as f:
+            f.write(response.content)
+
+        df = pd.read_csv("WakeUpSchedulerDataset.csv")
+        st.dataframe(df, use_container_width=True)
+
+        csv = df.to_csv(index=False).encode('utf-8')
+        st.download_button("📥 ดาวน์โหลด Dataset", data=csv, file_name="WakeUpSchedulerDataset.csv", mime='text/csv')
+
+    except Exception as e:
+        st.error(f"❌ โหลด Dataset ไม่สำเร็จ: {e}")
