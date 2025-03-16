@@ -1,9 +1,11 @@
 import streamlit as st
 import pandas as pd
 import pickle
+import requests
 
 st.set_page_config(page_title="Machine Demo", layout="wide", initial_sidebar_state="collapsed")
 
+# ========== UI Navbar ==========
 st.markdown("""
     <style>
         .nav-container {
@@ -34,7 +36,26 @@ st.markdown("""
         <a class='nav-link' href="/NN"> NN Test</a>
     </div>
 """, unsafe_allow_html=True)
+
 st.title("ทำนายราคารถมอเตอร์ไซค์ด้วย Machine Learning")
+
+def load_file_from_drive(file_id, save_as):
+    url = f"https://drive.google.com/uc?id={file_id}"
+    response = requests.get(url)
+    with open(save_as, "wb") as f:
+        f.write(response.content)
+
+file_ids = {
+    "linear_model": "10s_inXkGzVAtSkJNQytGGHGt6dc_nW3z",
+    "random_forest_model": "1d_yfl71S2pXZ7fdNC7NSc_sH9NxhMquC",
+    "encoders": "105eSHOPoxgXfms_PzyyKyk4MulXB3KhP",
+    "dataset": "1KdGrnbJTtYD9j60eKR6yruyuEQGHghg2"
+}
+
+load_file_from_drive(file_ids["linear_model"], "linear_model.pkl")
+load_file_from_drive(file_ids["random_forest_model"], "random_forest_model.pkl")
+load_file_from_drive(file_ids["encoders"], "encoders.pkl")
+load_file_from_drive(file_ids["dataset"], "MotorcycleDataset.csv")
 
 with open("linear_model.pkl", "rb") as f:
     lr_model = pickle.load(f)
@@ -45,8 +66,7 @@ with open("random_forest_model.pkl", "rb") as f:
 with open("encoders.pkl", "rb") as f:
     encoders = pickle.load(f)
 
-# โหลด Dataset
-df = pd.read_csv("data/MotorcycleDataset.csv")
+df = pd.read_csv("MotorcycleDataset.csv")
 df = df.dropna()
 
 st.header("📄 เลือกข้อมูลเพื่อทำนายราคา")
@@ -103,7 +123,7 @@ if st.button("ทำนายราคา"):
     if "-- กรุณาเลือก --" in [st.session_state['brand'], st.session_state['model'], st.session_state['type'], st.session_state['province']] or st.session_state['cc'] == "-- กรุณาเลือก --":
         st.error("กรุณาเลือกข้อมูลให้ครบทุกช่องก่อนทำนาย")
     else:
-        input_data = pd.DataFrame([[
+        input_data = pd.DataFrame([[ 
             encoders['Brand'].transform([st.session_state['brand']])[0],
             encoders['Model'].transform([st.session_state['model']])[0],
             st.session_state['cc'],

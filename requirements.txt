@@ -1,3 +1,7 @@
 streamlit
-streamlit-extras
+pandas
+numpy
+scikit-learn
 tensorflow
+requests
+streamlit-extras
